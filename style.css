@@ -1,0 +1,286 @@
+/* =============================================
+   Base reset & font
+   ============================================= */
+/* No external font imports — system monospace stack is used */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Pixelated font stack — falls back gracefully */
+:root {
+  --font-pixel: "Courier New", Courier, monospace;
+  --color-bg: #0a0a0a;
+  --color-panel: #111111;
+  --color-border: #00ff41;
+  --color-text: #00ff41;
+  --color-dim: #005a17;
+  --color-accent: #ff6600;
+  --color-food: #ff3333;
+  --canvas-size: 400px;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-pixel);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* =============================================
+   Layout wrapper
+   ============================================= */
+#game-wrapper {
+  display: grid;
+  grid-template-areas:
+    "header     header"
+    "main       leaderboard"
+    "footer     footer";
+  grid-template-columns: var(--canvas-size) 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 12px;
+  max-width: 700px;
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+/* =============================================
+   Header
+   ============================================= */
+header {
+  grid-area: header;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.game-title {
+  font-size: 2.4rem;
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 10px var(--color-text), 0 0 20px var(--color-text);
+}
+
+#score-display {
+  text-align: right;
+}
+
+.label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--color-dim);
+}
+
+#current-score {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  text-shadow: 0 0 8px var(--color-accent);
+}
+
+/* =============================================
+   Canvas / game area
+   ============================================= */
+main {
+  grid-area: main;
+  position: relative;
+  width: var(--canvas-size);
+  height: var(--canvas-size);
+}
+
+#game-canvas {
+  display: block;
+  width: var(--canvas-size);
+  height: var(--canvas-size);
+  border: 2px solid var(--color-border);
+  box-shadow:
+    0 0 4px var(--color-border),
+    0 0 16px rgba(0, 255, 65, 0.25),
+    inset 0 0 40px rgba(0, 0, 0, 0.8);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background-color: #050505;
+}
+
+/* =============================================
+   Overlay (start / game-over)
+   ============================================= */
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 10;
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+#overlay-content {
+  text-align: center;
+  padding: 28px 36px;
+  border: 2px solid var(--color-border);
+  background: var(--color-panel);
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+}
+
+#overlay-title {
+  font-size: 2rem;
+  letter-spacing: 0.25em;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px var(--color-text);
+}
+
+#overlay-score {
+  font-size: 1rem;
+  color: var(--color-accent);
+  margin-bottom: 20px;
+  min-height: 1.2em;
+}
+
+#restart-btn {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+#restart-btn:hover,
+#restart-btn:focus {
+  background: var(--color-border);
+  color: var(--color-bg);
+  outline: none;
+}
+
+/* =============================================
+   Leaderboard panel
+   ============================================= */
+#leaderboard-panel {
+  grid-area: leaderboard;
+  border: 2px solid var(--color-border);
+  background: var(--color-panel);
+  padding: 14px 16px;
+  align-self: start;
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.15);
+}
+
+.panel-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: var(--color-dim);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-dim);
+  padding-bottom: 6px;
+}
+
+#high-score-list {
+  list-style: none;
+  padding: 0;
+}
+
+#high-score-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #1a1a1a;
+  gap: 12px;
+}
+
+#high-score-list li:last-child {
+  border-bottom: none;
+}
+
+.score-rank {
+  color: var(--color-dim);
+  min-width: 1.4em;
+}
+
+.score-rank.gold   { color: #ffd700; }
+.score-rank.silver { color: #c0c0c0; }
+.score-rank.bronze { color: #cd7f32; }
+
+.score-value {
+  color: var(--color-accent);
+  font-weight: bold;
+  flex: 1;
+  text-align: right;
+}
+
+.score-date {
+  color: #3a3a3a;
+  font-size: 0.7rem;
+  min-width: 5em;
+  text-align: right;
+}
+
+/* =============================================
+   Footer
+   ============================================= */
+footer {
+  grid-area: footer;
+  text-align: center;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-dim);
+}
+
+.instructions {
+  font-size: 0.7rem;
+  color: var(--color-dim);
+  letter-spacing: 0.05em;
+}
+
+.food-indicator {
+  color: var(--color-food);
+}
+
+/* =============================================
+   Scanline effect overlay (pure CSS, no image)
+   ============================================= */
+#game-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  pointer-events: none;
+}
+
+/* =============================================
+   Responsive (narrow screens)
+   ============================================= */
+@media (max-width: 560px) {
+  :root { --canvas-size: 300px; }
+
+  #game-wrapper {
+    grid-template-areas:
+      "header"
+      "main"
+      "leaderboard"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+
+  main { width: 100%; height: var(--canvas-size); }
+  #game-canvas { width: 100%; height: var(--canvas-size); }
+}

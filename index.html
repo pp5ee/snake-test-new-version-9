@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-wrapper">
+    <header>
+      <h1 class="game-title">SNAKE</h1>
+      <div id="score-display">
+        <span class="label">SCORE</span>
+        <span id="current-score">0</span>
+      </div>
+    </header>
+
+    <main>
+      <canvas id="game-canvas" width="400" height="400"></canvas>
+
+      <div id="overlay" class="hidden">
+        <div id="overlay-content">
+          <h2 id="overlay-title">GAME OVER</h2>
+          <p id="overlay-score"></p>
+          <button id="restart-btn">PLAY AGAIN</button>
+        </div>
+      </div>
+    </main>
+
+    <aside id="leaderboard-panel">
+      <h2 class="panel-title">HIGH SCORES</h2>
+      <ol id="high-score-list"></ol>
+    </aside>
+
+    <footer>
+      <p class="instructions">Arrow keys to move &nbsp;|&nbsp; Eat the <span class="food-indicator">&#9632;</span> to grow</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
