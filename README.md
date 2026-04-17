@@ -34,6 +34,18 @@ No build steps or dependencies required.
 - High score leaderboard (top 10) persisted in localStorage
 - Game over screen with restart option
 
+## Configuration Options
+
+The following options can be modified in `script.js`:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `gridColumns` | 20 | Number of columns in the game grid |
+| `gridRows` | 20 | Number of rows in the game grid |
+| `tickIntervalMs` | 130 | Game speed in milliseconds per move |
+| `maxHighScores` | 10 | Maximum number of high scores to store |
+| `storageKey` | "snakeHighScores" | localStorage key for high scores |
+
 ## Browser Compatibility
 
 Works in all modern browsers that support HTML5 Canvas and localStorage.
